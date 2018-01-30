@@ -1,4 +1,15 @@
 class Place < ApplicationRecord
+  geocoded_by :address
+  after_validation :geocode, if: :address_changed?
+
+  def address
+    ["#{store_number} #{store_name}", street, place, zip_code].compact.join(', ')
+  end
+
+  def address_changed
+    store_number_changed? || store_name_changed? || street_changed? || place_changed? || zip_code_changed?
+  end
+
   def self.import
     file_path = "#{Rails.public_path}/filialstamm.csv"
     raise "File does not exist" unless File.exists? file_path
