@@ -27,9 +27,9 @@ Run task to import places from CSV file:
 
 `rails import:places`
 
-Run task to call ActiveJob that update places latitude and longitude:
+Run ActiveJob that update places latitude and longitude:
 
-`rails import:coordinates`
+`rails c` and then `UpdateCoordinatesJob.perform_later`
 
 Run task to create Authenticated user:
 
@@ -59,10 +59,35 @@ To make an authenticated request to the API, pass the token via the request head
 
 Examples:
 ------------
-  ```
-  GET http://localhost:3000/places?page=:page
-  GET http://localhost:3000/places/:id
-  PUT http://localhost:3000/places/:id
-  POST http://localhost:3000/places/:id
-  DELETE http://localhost:3000/places/:id
-  ```
+
+Get all places (optional param page):
+
+`GET http://localhost:3000/places?page=:page`
+
+Get a specific place and nearbys locations (optional param distance):
+
+`GET http://localhost:3000/places/:id?distance=:distance`
+
+Create a new place:
+
+`POST http://localhost:3000/places`
+Hash params:
+```
+  {
+    "place": { "customer_id": 23122,"store_number": 453,"street": "CELLER-STRAßE 81","zip_code": "38114","place": "BRAUNSCHWEIG","store_name": "PRAKTIKER" }
+  }
+```
+
+Update a place:
+
+`PUT http://localhost:3000/places/:id`
+Hash params:
+```
+  {
+    "place": { "customer_id": 23122,"store_number": 453,"street": "CELLER-STRAßE 81","zip_code": "38114","place": "BRAUNSCHWEIG","store_name": "PRAKTIKER" }
+  }
+```
+
+Delete a place:
+`DELETE http://localhost:3000/places/:id`
+

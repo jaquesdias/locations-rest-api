@@ -4,8 +4,4 @@ namespace :import do
     ActiveRecord::Base.connection.execute("TRUNCATE places RESTART IDENTITY")
     Place.import
   end
-
-  task coordinates: :environment do
-    UpdateCoordinatesJob.perform_later
-  end
 end
