@@ -7,11 +7,22 @@ class PlacesController < ApplicationController
     render json: @places
   end
 
+  def create
+    @place = Place.new(place_params[:_json])
+
+    if @place.save
+      render json: @place.id
+    else
+      render json: { status: 500, message: @place.errors.messages}
+    end
+  end
+
   def show
     set_place
+    set_distance
     fresh_when @place
 
-    render json: { place: @place, near_places: @place.nearbys }
+    render json: { place: @place, near_places: @place.nearbys(@distance) }
   end
 
   def destroy
@@ -22,6 +33,8 @@ class PlacesController < ApplicationController
     else
       render json: { status: 500, message: @place.errors.messages}
     end
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: error.message }, status: :not_found
   end
 
   private
@@ -34,7 +47,11 @@ class PlacesController < ApplicationController
     @page = params[:page].present? ? params[:page] : 1
   end
 
+  def set_distance
+    @distance = params[:distance].present? ? params[:distance].to_i : 10
+  end
+
   def place_params
-    params.require(:places).permit(:customer_id, :store_number, :street, :place, :zip_code, :store_name,:latitude, :longitude)
+    params.permit(_json: [:customer_id, :store_number, :street, :place, :zip_code, :store_name,:latitude, :longitude])
   end
 end
