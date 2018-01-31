@@ -1,4 +1,6 @@
 class PlacesController < ApplicationController
+  before_action :authenticate_user
+
   def index
     set_page
     @places = Place.page(@page).order(:id)
