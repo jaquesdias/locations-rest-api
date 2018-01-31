@@ -1,24 +1,38 @@
-# README
+Locations REST API
+========
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+RESTful API Code Challenge
 
-Things you may want to cover:
+Compatibility
+-------------
 
-* Ruby version
+* Ruby 2.4.3
 
-* System dependencies
+* PostgreSQL 10.1
 
-* Configuration
+Setup
+------------
 
-* Database creation
+After forked and cloned the repository, run bundle:
+  bundle install
 
-* Database initialization
+Create Database and tables:
+  rails db:setup db:migrate
 
-* How to run the test suite
+Run task to import places from CSV file
+  rails import:places
 
-* Services (job queues, cache servers, search engines, etc.)
+Run task to call ActiveJob that update places latidude and longitude
+  rails import:coordinates
 
-* Deployment instructions
+Start the Rails application
+  rails s
 
-* ...
+Examples:
+------------
+
+  GET http://localhost:3000/places?page=:page
+  GET http://localhost:3000/places/:id
+  PUT http://localhost:3000/places/:id
+  POST http://localhost:3000/places/:id
+  DELETE http://localhost:3000/places/:id
