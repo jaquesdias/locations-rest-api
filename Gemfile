@@ -31,6 +31,12 @@ gem 'kaminari'
 # Use Geocoder to search the address latitude and longitude
 gem 'geocoder'
 
+#Use BCrypt to secure user password
+gem 'bcrypt', '~> 3.1.7'
+
+# Use knock to generate JWT authentication
+gem 'knock'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
