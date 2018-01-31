@@ -10,9 +10,18 @@ class PlacesController < ApplicationController
   end
 
   def create
-    @place = Place.new(place_params[:_json])
+    @place = Place.new(place_params)
 
     if @place.save
+      render json: @place.id
+    else
+      render json: { status: 500, message: @place.errors.messages}
+    end
+  end
+
+  def update
+    set_place
+    if @place.update(place_params)
       render json: @place.id
     else
       render json: { status: 500, message: @place.errors.messages}
@@ -54,6 +63,6 @@ class PlacesController < ApplicationController
   end
 
   def place_params
-    params.permit(_json: [:customer_id, :store_number, :street, :place, :zip_code, :store_name,:latitude, :longitude])
+    params.require(:place).permit(:customer_id, :store_number, :street, :place, :zip_code, :store_name)
   end
 end
