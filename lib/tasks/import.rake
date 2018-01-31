@@ -5,4 +5,7 @@ namespace :import do
     Place.import
   end
 
+  task coordinates: :environment do
+    UpdateCoordinatesJob.perform_later
+  end
 end
